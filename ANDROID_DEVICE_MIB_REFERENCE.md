@@ -10,6 +10,17 @@ The Android Device MIB provides comprehensive real-time statistics about your An
 
 ## Available OIDs
 
+### 0. Standard System MIB (1.3.6.1.2.1.1.x.0) - **Required for SolarWinds**
+| OID | Name | Type | Description | Example Value |
+|-----|------|------|-------------|---------------|
+| `1.3.6.1.2.1.1.1.0` | System Description | STRING | Device description with model, OS, battery, network | "Android SNMP Agent - Google Pixel 7 - Android 13 (API 33) - Battery: 85% - Network: WIFI" |
+| `1.3.6.1.2.1.1.2.0` | System Object ID | OID | Enterprise OID identifying this agent | "1.3.6.1.4.1.5380.1.16.0.1" |
+| `1.3.6.1.2.1.1.3.0` | System Uptime | TIMETICKS | Time since last boot (hundredths of seconds) | 360000 |
+| `1.3.6.1.2.1.1.4.0` | System Contact | STRING | Contact information (configurable) | "IT Support <support@company.com>" |
+| `1.3.6.1.2.1.1.5.0` | System Name | STRING | Device name (configurable) | "TABLET-WAREHOUSE-A-DOCK3" |
+| `1.3.6.1.2.1.1.6.0` | System Location | STRING | Device location (configurable) | "Warehouse A, Loading Dock 3, 123 Industrial Blvd" |
+| `1.3.6.1.2.1.1.7.0` | System Services | INTEGER | Services provided (64 = application layer) | 64 |
+
 ### 1. System Information (1.3.6.1.4.1.5380.1.16.10.x)
 | OID | Name | Type | Description | Example Value |
 |-----|------|------|-------------|---------------|
@@ -74,6 +85,11 @@ The Android Device MIB provides comprehensive real-time statistics about your An
 
 ### Using snmpget (single OID)
 ```bash
+# Standard System MIB (what SolarWinds queries)
+snmpget -v2c -c blackjack 192.168.1.3:1161 1.3.6.1.2.1.1.1.0  # System Description
+snmpget -v2c -c blackjack 192.168.1.3:1161 1.3.6.1.2.1.1.5.0  # System Name
+snmpget -v2c -c blackjack 192.168.1.3:1161 1.3.6.1.2.1.1.6.0  # System Location
+
 # Get device model
 snmpget -v2c -c blackjack 192.168.1.3:1161 1.3.6.1.4.1.5380.1.16.10.1.0
 

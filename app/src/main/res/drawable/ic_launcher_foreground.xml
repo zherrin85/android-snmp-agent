@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <group android:scaleX="0.8"
+           android:scaleY="0.8"
+           android:pivotX="54"
+           android:pivotY="54">
+        
+        <!-- Server/Network representation -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M20,35h68c2,0 4,-2 4,-4s-2,-4 -4,-4H20c-2,0 -4,2 -4,4S18,35 20,35z"/>
+        
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M20,58h68c2,0 4,-2 4,-4s-2,-4 -4,-4H20c-2,0 -4,2 -4,4S18,58 20,58z"/>
+        
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M20,81h68c2,0 4,-2 4,-4s-2,-4 -4,-4H20c-2,0 -4,2 -4,4S18,81 20,81z"/>
+        
+        <!-- Status indicators -->
+        <path
+            android:fillColor="#4CAF50"
+            android:pathData="M28,31m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0"/>
+        
+        <path
+            android:fillColor="#FF9800"
+            android:pathData="M28,54m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0"/>
+        
+        <path
+            android:fillColor="#2196F3"
+            android:pathData="M28,77m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0"/>
+        
+        <!-- SNMP text representation -->
+        <path
+            android:fillColor="#E3F2FD"
+            android:pathData="M70,25h12v12h-12z"/>
+        <path
+            android:fillColor="#E3F2FD"
+            android:pathData="M70,48h12v12h-12z"/>
+        <path
+            android:fillColor="#E3F2FD"
+            android:pathData="M70,71h12v12h-12z"/>
+    </group>
+</vector>

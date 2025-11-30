@@ -6,7 +6,8 @@ A comprehensive Android SNMP agent that provides real device statistics for netw
 
 ### Core SNMP Functionality
 - **SNMP v2c support** with configurable communities
-- **28 real device statistics** (memory, battery, CPU, network, storage, system info)
+- **Standard System MIB** (RFC 1213) for SolarWinds compatibility
+- **35+ real device statistics** (memory, battery, CPU, network, storage, system info)
 - **SNMP walk support** (GETNEXT operations)
 - **Configurable port** (default 1161, enterprise-friendly 10161)
 - **Auto-start on boot** with user toggle
@@ -29,8 +30,26 @@ A comprehensive Android SNMP agent that provides real device statistics for netw
 
 ## 📱 Installation
 
-1. **Build APK**: Open in Android Studio and build debug APK
-2. **Install**: Transfer APK to Android device and install
+### Option 1: Build from Source
+1. **Clone repository**: `git clone <repository-url>`
+2. **Open in Android Studio**: Import the project
+3. **Build APK**: `Build → Build Bundle(s)/APK(s) → Build APK(s)`
+4. **Install**: Transfer APK to device and install
+
+### Option 2: Command Line Build
+```bash
+# Debug APK (for testing)
+./gradlew assembleDebug
+# Output: app/build/outputs/apk/debug/app-debug.apk
+
+# Release APK (for production)
+./gradlew assembleRelease  
+# Output: app/build/outputs/apk/release/app-release-unsigned.apk
+```
+
+### Setup
+1. **Install APK** on Android device
+2. **Grant permissions** (location for WiFi SSID detection)
 3. **Configure**: Set port (recommend 10161 for enterprise networks)
 4. **Start Service**: Toggle the SNMP service switch in the app
 
@@ -63,7 +82,7 @@ snmpget -v2c -c blackjack 192.168.1.100:10161 1.3.6.1.4.1.5380.1.16.10.1.0
 ```
 
 ### Available OID Ranges
-- **1.3.6.1.4.1.5380.1.16.1.x** - Legacy sample MIB
+- **1.3.6.1.2.1.1.x** - Standard System MIB (RFC 1213)
 - **1.3.6.1.4.1.5380.1.16.2.x** - Memory information
 - **1.3.6.1.4.1.5380.1.16.3.x** - Storage information
 - **1.3.6.1.4.1.5380.1.16.4.x** - Battery information
@@ -130,10 +149,13 @@ snmpget -v2c -c blackjack 192.168.1.100:10161 1.3.6.1.4.1.5380.1.16.10.1.0
 ## 🏆 Production Ready
 
 ✅ **SolarWinds integration tested**  
+✅ **Standard System MIB compliance**  
 ✅ **Enterprise firewall compatible**  
 ✅ **Cross-network communication verified**  
-✅ **28 real device statistics**  
+✅ **35+ real device statistics**  
+✅ **No test data - production ready**  
 ✅ **Auto-start functionality**  
+✅ **Professional custom icon**  
 ✅ **Comprehensive documentation**
 
 ---

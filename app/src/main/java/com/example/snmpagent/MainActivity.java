@@ -2,21 +2,29 @@ package com.example.snmpagent;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 public class MainActivity extends AppCompatActivity {
+    
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
     
     private EditText portEditText;
     private EditText getCommunityEditText;
     private EditText setCommunityEditText;
     private EditText trapCommunityEditText;
     private EditText trapDestinationEditText;
+    private EditText systemNameEditText;
+    private EditText systemLocationEditText;
+    private EditText systemContactEditText;
     private Switch serviceSwitch;
     private Switch autoStartSwitch;
     private Button saveButton;
@@ -37,12 +45,18 @@ public class MainActivity extends AppCompatActivity {
         setCommunityEditText = findViewById(R.id.setCommunityEditText);
         trapCommunityEditText = findViewById(R.id.trapCommunityEditText);
         trapDestinationEditText = findViewById(R.id.trapDestinationEditText);
+        systemNameEditText = findViewById(R.id.systemNameEditText);
+        systemLocationEditText = findViewById(R.id.systemLocationEditText);
+        systemContactEditText = findViewById(R.id.systemContactEditText);
         serviceSwitch = findViewById(R.id.serviceSwitch);
         autoStartSwitch = findViewById(R.id.autoStartSwitch);
         saveButton = findViewById(R.id.saveButton);
         
         // Load saved preferences
         loadPreferences();
+        
+        // Check and request permissions for network info
+        checkAndRequestPermissions();
         
         // Set up save button
         saveButton.setOnClickListener(v -> savePreferences());
@@ -77,6 +91,12 @@ public class MainActivity extends AppCompatActivity {
         trapCommunityEditText.setHint("blackjack");
         trapDestinationEditText.setText(preferences.getString("trap_destination", "192.168.1.100"));
         trapDestinationEditText.setHint("192.168.1.100");
+        
+        // Load System MIB settings
+        systemNameEditText.setText(preferences.getString("system_name", ""));
+        systemLocationEditText.setText(preferences.getString("system_location", ""));
+        systemContactEditText.setText(preferences.getString("system_contact", ""));
+        
         autoStartSwitch.setChecked(preferences.getBoolean("auto_start", true));
     }
     
@@ -95,6 +115,12 @@ public class MainActivity extends AppCompatActivity {
             editor.putString("trap_community", trapCommunityEditText.getText().toString());
             editor.putString("trap_destination", trapDestinationEditText.getText().toString());
             editor.putBoolean("auto_start", autoStartSwitch.isChecked());
+            
+            // Save System MIB settings
+            editor.putString("system_name", systemNameEditText.getText().toString());
+            editor.putString("system_location", systemLocationEditText.getText().toString());
+            editor.putString("system_contact", systemContactEditText.getText().toString());
+            
             editor.apply();
             
             Toast.makeText(this, "Settings saved", Toast.LENGTH_SHORT).show();
@@ -152,6 +178,41 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         updateServiceStatus();
+    }
+    
+    private void checkAndRequestPermissions() {
+        // Check if we have location permission (needed for WiFi SSID on Android 8.1+)
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) 
+                != PackageManager.PERMISSION_GRANTED) {
+            
+            // Show explanation if needed
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, 
+                    android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+                
+                Toast.makeText(this, "Location permission is needed to show WiFi network names in SNMP data", 
+                        Toast.LENGTH_LONG).show();
+            }
+            
+            // Request the permission
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+    
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Location permission granted - WiFi network names will now be available in SNMP data", 
+                        Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Location permission denied - WiFi network names will show as 'hidden' in SNMP data", 
+                        Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }
 

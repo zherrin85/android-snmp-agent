@@ -605,8 +605,14 @@ public class SnmpAgentService extends Service {
         // Define all available OIDs in sorted order for GETNEXT traversal
         java.util.List<org.snmp4j.smi.OID> allOids = new java.util.ArrayList<>();
         
-        // Legacy Sample MIB
-        allOids.add(com.example.mib.SampleMib.SAMPLE_OID);
+        // Standard System MIB (1.3.6.1.2.1.1.x.0) - CRITICAL for SolarWinds
+        allOids.add(com.example.mib.SystemMibSimple.SYS_DESCR);
+        allOids.add(com.example.mib.SystemMibSimple.SYS_OBJECT_ID);
+        allOids.add(com.example.mib.SystemMibSimple.SYS_UP_TIME);
+        allOids.add(com.example.mib.SystemMibSimple.SYS_CONTACT);
+        allOids.add(com.example.mib.SystemMibSimple.SYS_NAME);
+        allOids.add(com.example.mib.SystemMibSimple.SYS_LOCATION);
+        allOids.add(com.example.mib.SystemMibSimple.SYS_SERVICES);
         
         // Memory Information (2.x)
         allOids.add(com.example.mib.AndroidDeviceMib.TOTAL_MEMORY);

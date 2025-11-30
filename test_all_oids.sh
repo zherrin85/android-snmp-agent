@@ -3,7 +3,7 @@
 # Android Device SNMP Agent - OID Test Script
 # This script tests all available OIDs in the Android Device MIB
 
-DEVICE_IP="192.168.1.100"
+DEVICE_IP="192.168.1.168"
 PORT="10161"
 COMMUNITY="blackjack"
 
@@ -13,11 +13,31 @@ echo "Device: $DEVICE_IP:$PORT"
 echo "Community: $COMMUNITY"
 echo "=========================================="
 
-# Test Legacy Sample MIB
+# Test Standard System MIB (Critical for SolarWinds)
 echo ""
-echo "=== Legacy Sample MIB ==="
-echo "Testing Sample Value (1.3.6.1.4.1.5380.1.16.1.1.0):"
-snmpget -v2c -c $COMMUNITY $DEVICE_IP:$PORT 1.3.6.1.4.1.5380.1.16.1.1.0
+echo "=== Standard System MIB (Required for SolarWinds) ==="
+echo "Testing System Description (1.3.6.1.2.1.1.1.0):"
+snmpget -v2c -c $COMMUNITY $DEVICE_IP:$PORT 1.3.6.1.2.1.1.1.0
+
+echo "Testing System Object ID (1.3.6.1.2.1.1.2.0):"
+snmpget -v2c -c $COMMUNITY $DEVICE_IP:$PORT 1.3.6.1.2.1.1.2.0
+
+echo "Testing System Uptime (1.3.6.1.2.1.1.3.0):"
+snmpget -v2c -c $COMMUNITY $DEVICE_IP:$PORT 1.3.6.1.2.1.1.3.0
+
+echo "Testing System Contact (1.3.6.1.2.1.1.4.0):"
+snmpget -v2c -c $COMMUNITY $DEVICE_IP:$PORT 1.3.6.1.2.1.1.4.0
+
+echo "Testing System Name (1.3.6.1.2.1.1.5.0):"
+snmpget -v2c -c $COMMUNITY $DEVICE_IP:$PORT 1.3.6.1.2.1.1.5.0
+
+echo "Testing System Location (1.3.6.1.2.1.1.6.0):"
+snmpget -v2c -c $COMMUNITY $DEVICE_IP:$PORT 1.3.6.1.2.1.1.6.0
+
+echo "Testing System Services (1.3.6.1.2.1.1.7.0):"
+snmpget -v2c -c $COMMUNITY $DEVICE_IP:$PORT 1.3.6.1.2.1.1.7.0
+
+# Legacy Sample MIB removed - production version only shows real device data
 
 # Test System Information
 echo ""
